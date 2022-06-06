@@ -1,0 +1,18 @@
+<div class="h-screen grid place-items-center">
+	<div>
+		<h1 class="text-slate-600 text-center font-bold text-lg">Login</h1>
+		<form class="grid grid-cols-2 gap-4 mt-10" action="/login" method="POST">
+			<div class="flex flex-col">
+				<label class="mb-2" for="email">Email</label>
+				<input type="email" name="email" placeholder="ex: john@mail.com" />
+			</div>
+			<div class="flex flex-col">
+				<label class="mb-2" for="password">Password</label>
+				<input type="password" name="password" placeholder="********" />
+			</div>
+			<div class="flex col-span-2 justify-end">
+				<button class="bg-blue-500 text-white px-4 py-2" type="submit">Login</button>
+			</div>
+		</form>
+	</div>
+</div>

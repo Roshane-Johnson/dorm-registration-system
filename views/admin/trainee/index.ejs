@@ -1,0 +1,38 @@
+<div class="relative rounded-xl overflow-auto">
+	<div class="shadow-sm overflow-hidden my-8">
+		<table class="border-collapse table-auto w-full text-sm">
+			<thead>
+				<tr>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">First Name</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Last Name</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Phone</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Course</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Gender</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Dorm</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Actions</th>
+				</tr>
+			</thead>
+
+			<tbody class="bg-white">
+				<% trainees.forEach(trainee => { %>
+				<tr>
+					<td class="border-b border-slate-100 p-4 pl-8 text-slate-500"><%= trainee.first_nm %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.last_nm %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.phone_num %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.course %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.gender %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.dorm_room %></td>
+					<td class="border-b border-slate-100 p-4 pr-8 text-slate-500">
+						<a href="/admin/trainees/edit/<%= trainee.uuid %>">Edit</a>
+						<span> | </span>
+						<button onclick="navigator.clipboard.writeText('<%= trainee.uuid %>')">Copy ID</button>
+						<span> | </span>
+						<a class="delBtn" data-trainee_name="<%= trainee.first_nm %>" href="/admin/trainees/delete/<%= trainee.uuid %>">Delete</a>
+					</td>
+				</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="/assets/js/admin.trainee.js"></script>

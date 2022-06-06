@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav ul li {
+	--nav-padding: 10px;
+	display: flex;
+	padding-left: var(--nav-padding);
+	padding-right: var(--nav-padding);
+}
+
+input::placeholder {
+	color: rgba(0, 0, 0, 0.2);
+}

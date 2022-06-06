@@ -1,0 +1,44 @@
+<h1 class="text-base mb-10 text-slate-700">Traineess > Edit (<%= trainee.first_nm %>)</h1>
+<div class="formCon w-1/2 mx-auto flex place-items-center">
+	<form class="grid grid-cols-2 gap-4 mt-10" action="/admin/trainees/update/<%= trainee.uuid %> " method="post">
+		<div class="flex flex-col">
+			<label class="mb-2" for="f_name">First Name</label>
+			<input type="text" placeholder="ex: John" name="f_name" value="<%= trainee.first_nm %>" />
+		</div>
+		<div class="flex flex-col">
+			<label class="mb-2" for="l_name">Last Name</label>
+			<input type="text" placeholder="ex: Doe" name="l_name" value="<%= trainee.last_nm %>" />
+		</div>
+		<div class="col-span-2 flex flex-col">
+			<label class="mb-2" for="email">Email</label>
+			<input type="text" placeholder="ex: johndoe@example.com" name="email" value="<%= trainee.email %>" />
+		</div>
+		<div class="flex flex-col">
+			<label class="mb-2" for="dob">Dath of Birth</label>
+			<input type="date" name="dob" value="<%= trainee.dob %>" />
+		</div>
+		<div class="flex flex-col">
+			<label class="mb-2" for="p_num">Phone Number</label>
+			<input type="text" placeholder="ex: +1 (876) 123-4567" name="p_num" value="<%= trainee.phone_num %>" />
+		</div>
+		<div class="flex flex-col">
+			<label class="mb-2" for="gender">Gender</label>
+			<select name="gndr_id" id="gender">
+				<% genders.forEach(gender => { %>
+				<option value="<%= gender.id %>"><%= gender.gender %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="flex flex-col">
+			<label class="mb-2" for="dorms">Doorm Room</label>
+			<select name="drm_id" id="dorms">
+				<% dorm_rooms.forEach(dorm => { %>
+				<option value="<%= dorm.id %>"><%= dorm.name %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="flex col-span-2 justify-end">
+			<button class="bg-blue-500 text-white px-4 py-2" type="submit">Edit Trainee</button>
+		</div>
+	</form>
+</div>

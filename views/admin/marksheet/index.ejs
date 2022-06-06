@@ -1,0 +1,62 @@
+<h1>Marksheet for <%= todayAsDate %></h1>
+<div class="relative rounded-xl overflow-auto">
+	<% if(trainees.length < 1) { %>
+	<div class="grid place-items-center h-[70vh]">
+		<div class="text-center">
+			<h1 class="font-bold text-lg mb-2">Register hasn't been taken today</h1>
+			<p class="text-sm mb-6">Load trainees to start register for today</p>
+			<a href="/admin/marksheet/setup" class="px-5 py-2 rounded bg-blue-500 text-white text-xs font-semibold font-sans uppercase">Load Trainees</a>
+		</div>
+	</div>
+	<% } else { %>
+	<div class="shadow-sm overflow-hidden my-8">
+		<table class="border-collapse table-auto w-full text-sm">
+			<thead>
+				<tr>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">First Name</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Last Name</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Dorm</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Phone</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Course</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Gender</th>
+					<th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">Status</th>
+				</tr>
+			</thead>
+
+			<tbody class="bg-white">
+				<% trainees.forEach(trainee => { %>
+				<% if (trainee.status == "Present") { %>
+					<tr class="bg-green-100">
+				<% } else if (trainee.status == "Absent") {%>
+					<tr class="bg-orange-100">
+				<% } else if (trainee.status == "Away") { %> 
+					<tr class="bg-red-100">
+				<% } else { %>
+					<tr>
+				<% } %>  
+					<td class="border-b border-slate-100 p-4 pl-8 text-slate-500"><%= trainee.first_nm %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.last_nm %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.dorm_room %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.phone_num %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.course %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500"><%= trainee.gender %></td>
+					<td class="border-b border-slate-100 p-4 text-slate-500">
+						<form name="status_form" action="/admin/marksheet/status/<%= trainee.mks_id %>" method="POST">
+							<select onchange="this.form.submit()" name="trn_status" id="trn_stat" data-mark_status_id="<%= trainee.mks_id %>">
+								<% statuses.forEach(status => { %>
+								<option  <%= status.status == trainee.status ? "selected='true'" : null %>  value="<%= status.id %>">
+									<%= status.status %>
+								</option>
+								<% }) %>
+							</select>
+						</form>
+					</td>
+				</tr>
+				
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<% } %>
+</div>
+<script src="/assets/js/admin.marksheet.js"></script>
