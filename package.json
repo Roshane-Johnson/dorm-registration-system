@@ -4,7 +4,8 @@
 	"description": "Just another express application.",
 	"main": "app.js",
 	"scripts": {
-		"start": "concurrently \"nodemon app.js\" \"npx tailwindcss -i ./public/assets/css/_style.css -o ./public/assets/css/style.css --watch\""
+		"start": "node app.js",
+		"build": "concurrently \"nodemon app.js\" \"npx tailwindcss -i ./public/assets/css/_style.css -o ./public/assets/css/style.css --watch\""
 	},
 	"keywords": [],
 	"author": "Roshane-Johnson",
@@ -19,13 +20,16 @@
 		"express-ejs-layouts": "^2.5.1",
 		"express-flash": "^0.0.2",
 		"express-session": "^1.17.3",
-		"mysql": "^2.18.1",
-		"concurrently": "^7.2.1",
+		"mysql": "^2.18.1"
+	},
+	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",
+		"concurrently": "^7.2.1",
 		"nodemon": "^2.0.16",
 		"tailwindcss": "^3.0.24"
 	},
 	"engines": {
-		"node": "^16.13.2"
+		"node": "16.13.2",
+		"npm": "^8.11.0"
 	}
 }
