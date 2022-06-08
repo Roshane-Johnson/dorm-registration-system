@@ -34,7 +34,7 @@ app.use(
 )
 
 // Middlewares
-// app.use('**admin**', AdminAuth)
+app.use('**admin**', AdminAuth)
 
 // Authentication
 app.use('/', require('./routes/auth'))

@@ -1,8 +1,9 @@
 function admin(req, res, next) {
-	if (req.session.loggedIn) {
+	if (req.session.loggedIn === true) {
 		next()
 	} else {
-		res.redirect('/login')
+		req.session.nextUrl = req.originalUrl
+		res.redirect(`/login`)
 	}
 }
 

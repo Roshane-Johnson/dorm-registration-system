@@ -1,21 +1,17 @@
 <div class="h-screen">
 	<h1 class="font-bold text-lg text-slate-600">Statistics</h1>
-	<div class="grid grid-cols-4 gap-4">
+	<div class="grid grid-cols-3 gap-4">
 		<div class="p-4 rounded-md bg-blue-500 text-white">
-			<p>234</p>
+			<p><%= totals.trainee_count ?? 0 %></p>
 			<h3>Total Trainees</h3>
 		</div>
 		<div class="p-4 rounded-md bg-blue-500 text-white">
-			<p>234</p>
-			<h3>Total Trainees</h3>
+			<p><%= totals.dorm_warden_count ?? 0 %></p>
+			<h3>Total Dorm Wardens</h3>
 		</div>
 		<div class="p-4 rounded-md bg-blue-500 text-white">
-			<p>234</p>
-			<h3>Total Trainees</h3>
-		</div>
-		<div class="p-4 rounded-md bg-blue-500 text-white">
-			<p>234</p>
-			<h3>Total Trainees</h3>
+			<p><%= totals.trainees_present ?? 0 %></p>
+			<h3>Trainees Present Today</h3>
 		</div>
 	</div>
 </div>

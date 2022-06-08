@@ -1,12 +1,11 @@
 const express = require('express')
 const DB = require('../lib/db')
 const router = express.Router()
-
+const bcrypt = require('bcrypt')
 /**
  * Login View
  */
 router.get('/login', (req, res) => {
-	req.session.nextUrl = req.originalUrl
 	res.render('login', { page_title: 'Login' })
 })
 
@@ -14,16 +13,17 @@ router.get('/login', (req, res) => {
  * Login Endpoint
  */
 router.post('/login', (req, res) => {
-	const credentials = [req.body.email, req.body.password]
-	const query = 'SELECT * FROM dorm_wardens WHERE email = ? AND password = ? LIMIT 1;'
-	DB.query(query, credentials, (err, rows) => {
+	const [email, password] = [req.body.email, req.body.password]
+	const query = 'SELECT * FROM dorm_wardens WHERE email = ? LIMIT 1;'
+	DB.query(query, [email, password], (err, rows) => {
 		if (err) throw err
-		if (rows.length > 0) {
+		if (bcrypt.compareSync(password, rows[0].password) && rows.length > 0) {
 			req.session.loggedIn = true
+			req.session.dorm_warden_id = rows[0].id
 			res.redirect(req.session.nextUrl)
 		} else {
-			req.session.loggedIn = false
-			res.redirect('/login')
+			req.session.destroy()
+			res.redirect(`/login`)
 		}
 	})
 })
@@ -33,6 +33,14 @@ router.post('/login', (req, res) => {
  */
 router.get('/logout', (req, res) => {
 	req.session.destroy()
-	res.redirect(req.originalUrl)
+	res.redirect('/')
+})
+
+/**
+ * B-Crypt Password Generator
+ */
+router.get('/bcrypt/:password', (req, res) => {
+	const hashedPassword = bcrypt.hashSync(req.params.password, 10)
+	res.json({ message: { plain: req.params.password, hashed: hashedPassword } })
 })
 module.exports = router

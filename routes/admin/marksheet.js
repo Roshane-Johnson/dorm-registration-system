@@ -3,7 +3,6 @@ const router = express.Router()
 const DB = require('../../lib/db')
 const { SuccessResponse, ErrorResponse } = require('../../lib/helpers')
 
-// TODO Create marksheet feature
 // TODO Add photo upload for trainee
 
 /**
@@ -38,8 +37,11 @@ router.get('/', (req, res) => {
                     LEFT JOIN dorm_rooms drm ON trn.doorm_room_id = drm.id
                     LEFT JOIN courses crs ON trn.course_id = crs.id
                     WHERE mks.date = ? LIMIT 10000;`
-		const todayAsDate = new Date().toISOString().replace('T', ' ').split(' ')[0]
-		const _todayAsDate = new Date().toUTCString().split(' ').slice(0, 4).join(' ')
+
+		// The date manoeuvre below was done so that the marksheet is fully depedent on the system time
+		const __todayAsDate = new Date()
+		const todayAsDate = __todayAsDate.getFullYear() + '-' + (__todayAsDate.getMonth() + 1).toString().padStart(2, '0') + '-' + __todayAsDate.getDate().toString().padStart(2, '0')
+		const _todayAsDate = new Date(todayAsDate).toUTCString().split(' ').slice(0, 4).join(' ')
 		DB.query(query, todayAsDate, (err, rows) => {
 			if (err) throw err
 			res.render('admin/marksheet/index', { page_title: 'All Trainees', layout: 'layouts/admin', trainees: rows, todayAsDate: _todayAsDate, statuses })
@@ -48,7 +50,7 @@ router.get('/', (req, res) => {
 })
 
 /**
- * Marksheet check specific date history view
+ * Marksheet specific date history view
  */
 router.get('/history', (req, res) => {
 	res.render('admin/marksheet/check_history', { page_title: 'Marksheet History Check', layout: 'layouts/admin' })
@@ -58,16 +60,22 @@ router.get('/history', (req, res) => {
  * Marksheet specific date history endpoint
  */
 router.post('/history', (req, res) => {
-	const query = `SELECT 
+	const query = 'SELECT * FROM mark_statuses LIMIT 10000;'
+
+	DB.query(query, (err, statuses) => {
+		if (err) throw err
+
+		const query = `SELECT 
                         trn.id AS trn_id,
                         mks.id AS mks_id,
                         trn.first_nm,
                         trn.last_nm,
                         mkst.status,
                         trn.email,
-                        gnd.gender,
                         trn.phone_num,
+                        gnd.gender,
                         crs.name AS course,
+                        drm.name AS dorm_room,
                         trn.uuid,
                         mks.date,
                         mks.created_at,
@@ -80,11 +88,15 @@ router.post('/history', (req, res) => {
                     LEFT JOIN dorm_rooms drm ON trn.doorm_room_id = drm.id
                     LEFT JOIN courses crs ON trn.course_id = crs.id
                     WHERE mks.date = ? LIMIT 10000;`
-	const checkDate = new Date(req.body.date).toUTCString().split(' ').slice(0, 4).join(' ')
-	const _checkDate = req.body.date
-	DB.query(query, _checkDate, (err, rows) => {
-		if (err) throw err
-		res.render('admin/marksheet/history', { page_title: `Marksheet for (${checkDate})`, layout: 'layouts/admin', trainees: rows, checkDate })
+
+		// The date manoeuvre below was done so that the marksheet is fully depedent on the system time
+		const _checkDate = req.body.date
+		const checkDate = new Date(_checkDate).toUTCString().split(' ').slice(0, 4).join(' ')
+
+		DB.query(query, _checkDate, (err, rows) => {
+			if (err) throw err
+			res.render('admin/marksheet/history', { page_title: `Marksheet for (${checkDate})`, layout: 'layouts/admin', trainees: rows, checkDate, statuses })
+		})
 	})
 })
 
