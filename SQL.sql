@@ -1,39 +1,12 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               10.4.24-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
--- HeidiSQL Version:             12.0.0.6468
--- --------------------------------------------------------
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
-;
-/*!40101 SET NAMES utf8 */
-;
-/*!50503 SET NAMES utf8mb4 */
-;
-/*!40103 SET @OLD_TIgit ME_ZONE=@@TIME_ZONE */
-;
-/*!40103 SET TIME_ZONE='+00:00' */
-;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
-;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
-;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */
-;
--- Dumping database structure for dorm_register
-DROP DATABASE IF EXISTS `dorm_register`;
-CREATE DATABASE IF NOT EXISTS `dorm_register`
-/*!40100 DEFAULT CHARACTER SET utf8mb4 */
-;
-USE `dorm_register`;
--- Dumping structure for table dorm_register.courses
+-- DROP DATABASE IF EXISTS `dorm_register`;
+-- CREATE DATABASE IF NOT EXISTS `dorm_register`;
+-- USE `dorm_register`;
 DROP TABLE IF EXISTS `courses`;
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COMMENT = 'All the courses available at HEART NSTA Stony Hill';
--- Dumping data for table dorm_register.courses: ~6 rows (approximately)
 DELETE FROM `courses`;
 INSERT INTO `courses` (`id`, `name`)
 VALUES (1, 'Amber'),
@@ -42,14 +15,12 @@ VALUES (1, 'Amber'),
   (4, 'Food & Beverage'),
   (5, 'Network Support'),
   (6, 'Administration Assistant');
--- Dumping structure for table dorm_register.dorm_rooms
 DROP TABLE IF EXISTS `dorm_rooms`;
 CREATE TABLE IF NOT EXISTS `dorm_rooms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 27 DEFAULT CHARSET = utf8mb4;
--- Dumping data for table dorm_register.dorm_rooms: ~26 rows (approximately)
 DELETE FROM `dorm_rooms`;
 INSERT INTO `dorm_rooms` (`id`, `name`)
 VALUES (1, 'A1'),
@@ -78,7 +49,6 @@ VALUES (1, 'A1'),
   (24, 'C28'),
   (25, 'C29'),
   (26, 'C30');
--- Dumping structure for table dorm_register.dorm_wardens
 DROP TABLE IF EXISTS `dorm_wardens`;
 CREATE TABLE IF NOT EXISTS `dorm_wardens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -89,13 +59,12 @@ CREATE TABLE IF NOT EXISTS `dorm_wardens` (
   `password` varchar(80) DEFAULT NULL,
   `phone_num` int(11) NOT NULL,
   `uuid` varchar(100) DEFAULT uuid_short(),
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `created_at` datetime DEFAULT current_timestamp,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp,
   PRIMARY KEY (`id`),
   KEY `gender_id` (`gender_id`),
   CONSTRAINT `dorm_wardens_ibfk_1` FOREIGN KEY (`gender_id`) REFERENCES `genders` (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4;
--- Dumping data for table dorm_register.dorm_wardens: ~1 rows (approximately)
 DELETE FROM `dorm_wardens`;
 INSERT INTO `dorm_wardens` (
     `id`,
@@ -121,7 +90,6 @@ VALUES (
     '2022-06-03 11:19:14',
     NULL
   );
--- Dumping structure for table dorm_register.genders
 DROP TABLE IF EXISTS `genders`;
 CREATE TABLE IF NOT EXISTS `genders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -141,8 +109,8 @@ CREATE TABLE IF NOT EXISTS `marksheet` (
   `trainee_id` int(11) NOT NULL,
   `dorm_warden_id` int(11) NOT NULL,
   `mark_status_id` int(11) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `created_at` datetime DEFAULT current_timestamp,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp,
   PRIMARY KEY (`id`),
   KEY `trainee_id` (`trainee_id`),
   KEY `dorm_warden_id` (`dorm_warden_id`),
@@ -216,7 +184,6 @@ VALUES (
     '2022-06-05 13:38:56',
     '2022-06-05 13:51:27'
   );
--- Dumping structure for table dorm_register.mark_statuses
 DROP TABLE IF EXISTS `mark_statuses`;
 CREATE TABLE IF NOT EXISTS `mark_statuses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -242,8 +209,8 @@ CREATE TABLE IF NOT EXISTS `trainees` (
   `doorm_room_id` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
   `uuid` varchar(100) NOT NULL DEFAULT uuid_short(),
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT current_timestamp,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid_idx` (`uuid`) USING BTREE,
   KEY `course_id` (`course_id`) USING BTREE,
