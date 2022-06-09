@@ -24,7 +24,7 @@ app.use(cors(['*']))
 app.use(flash())
 app.use(
 	session({
-		secret: process.env.APP_SESSION_SECRET || 'secret8080',
+		secret: process.env.SESSION_SECRET || 'secret8080',
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
