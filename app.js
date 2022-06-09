@@ -8,8 +8,8 @@ const flash = require('express-flash')
 const AdminAuth = require('./routes/middlewares/auth')
 const app = express()
 
-const PORT = process.env.APP_PORT || 8080
-const APP_NAME = process.env.APP_NAME || 'Express App'
+let PORT = process.env.PORT || 8080
+let APP_NAME = process.env.NAME || 'Express App'
 
 // Express configs
 app.set('view engine', 'ejs')
